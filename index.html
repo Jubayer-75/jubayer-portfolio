@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modern Corporate Portfolio</title>
+    <title>Jubayer Ahmed | Modern Portfolio</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
     
     <style>
@@ -12,7 +12,7 @@
             --bg-color: #0a0a0a;
             --text-main: #ffffff;
             --text-muted: #a0a0a0;
-            --accent: #3b82f6; /* Electric Blue */
+            --accent: #3b82f6; 
             --accent-glow: rgba(59, 130, 246, 0.4);
             --card-bg: rgba(255, 255, 255, 0.05);
             --glass-border: rgba(255, 255, 255, 0.1);
@@ -24,7 +24,11 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            cursor: none; /* Hide default cursor for custom one */
+            cursor: none; 
+        }
+
+        html {
+            scroll-behavior: smooth;
         }
 
         body {
@@ -150,6 +154,7 @@
             opacity: 0;
             transform: translateY(50px);
             text-decoration: none;
+            display: inline-block;
         }
 
         .hero-btn:hover {
@@ -163,7 +168,6 @@
             max-width: 50%;
         }
 
-        /* --- FULLY VISIBLE SQUARE PHOTO WITH ROTATING BORDER --- */
         .profile-photo {
             position: relative;
             width: 320px; 
@@ -176,34 +180,25 @@
             transform: translateY(50px);
         }
 
-        /* The Moving Frame (Behind the photo) */
         .profile-photo::before {
             content: '';
             position: absolute;
-            width: 106%; /* Makes it slightly bigger than the image */
+            width: 106%;
             height: 106%;
-            border-radius: 28px; /* Slightly more rounded than image for a smooth look */
-            background: conic-gradient(
-                transparent 0deg,
-                var(--accent) 40deg,
-                transparent 80deg,
-                transparent 180deg,
-                var(--accent) 220deg,
-                transparent 260deg
-            );
+            border-radius: 28px;
+            background: conic-gradient(transparent 0deg, var(--accent) 40deg, transparent 80deg, transparent 180deg, var(--accent) 220deg, transparent 260deg);
             animation: rotate-border 4s linear infinite;
-            z-index: -1; /* This ensures it stays BEHIND your face */
-            filter: blur(1px); /* Softens the light trail */
+            z-index: -1;
+            filter: blur(1px);
         }
 
-        /* The Image Styling */
         .profile-photo img {
             width: 100%;
             height: 100%;
-            border-radius: 24px; /* Clean square corners */
-            object-fit: contain; /* Ensures your face is not squished */
-            border: 4px solid var(--bg-color); /* Creates a protective gap */
-            background: #4e254259;
+            border-radius: 24px;
+            object-fit: cover;
+            border: 4px solid var(--bg-color);
+            background: #1a1a1a;
         }
 
         @keyframes rotate-border {
@@ -246,6 +241,8 @@
             padding: 30px;
             border-radius: 15px;
             transition: transform 0.4s ease, border-color 0.4s ease;
+            position: relative;
+            overflow: hidden;
         }
 
         .project-card:hover {
@@ -272,7 +269,61 @@
             margin-right: 5px;
         }
 
-        /* --- 7. FOOTER --- */
+        /* --- 7. CURRENT PROJECTS (NEW) --- */
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.8rem;
+            color: var(--accent);
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .pulse {
+            width: 8px;
+            height: 8px;
+            background: var(--accent);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--accent);
+            animation: pulse-animation 1.5s infinite;
+        }
+
+        @keyframes pulse-animation {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(59, 130, 246, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
+        }
+
+        /* --- 8. CONTACT PAGE (NEW) --- */
+        .contact-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 20px;
+            border: 1px solid var(--glass-border);
+        }
+
+        .contact-info h3 { font-size: 2rem; margin-bottom: 20px; }
+        .contact-info p { color: var(--text-muted); margin-bottom: 30px; }
+
+        .contact-form { display: flex; flex-direction: column; gap: 20px; }
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 15px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            color: white;
+            font-family: var(--font-main);
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        .form-group input:focus, .form-group textarea:focus { border-color: var(--accent); }
+
+        /* --- 9. FOOTER --- */
         footer {
             padding: 50px 10%;
             border-top: 1px solid var(--glass-border);
@@ -281,18 +332,14 @@
         }
 
         /* RESPONSIVE */
+        @media (max-width: 992px) {
+            .contact-container { grid-template-columns: 1fr; }
+        }
+
         @media (max-width: 768px) {
-            .hero { 
-                flex-direction: column-reverse; 
-                justify-content: center;
-                text-align: center;
-            }
+            .hero { flex-direction: column-reverse; justify-content: center; text-align: center; }
             .hero-content { max-width: 100%; margin-top: 50px; }
-            .profile-photo { 
-                width: 250px; 
-                height: 250px; 
-                margin: 0 auto; 
-            }
+            .profile-photo { width: 250px; height: 250px; margin: 0 auto; }
             .hero h1 { font-size: 3rem; }
             header { padding: 20px; }
             nav { display: none; }
@@ -304,13 +351,13 @@
     <div class="cursor"></div>
 
     <header>
-        <div class="logo">JUBAYER  AHMED</div> 
+        <div class="logo">JUBAYER AHMED</div> 
         <nav>
             <ul>
                 <li><a href="#about" class="hover-trigger">ABOUT</a></li>
                 <li><a href="#projects" class="hover-trigger">PROJECTS</a></li>
+                <li><a href="#current-projects" class="hover-trigger">CURRENT</a></li>
                 <li><a href="#contact" class="hover-trigger">CONTACT</a></li>
-                <li><a href="#current projects" class="hover-trigger">CURRENT PROJECTS</li>
             </ul>
         </nav>
     </header>
@@ -326,7 +373,7 @@
         </div>
         
         <div class="profile-photo animate-hero">
-            <img src="profile.jpg" alt="Profile Photo">
+            <img src="profile.jpg" alt="Jubayer Ahmed">
         </div>
     </section>
 
@@ -334,7 +381,7 @@
         <div class="reveal">
             <h2 class="section-title">Who I Am</h2>
             <p style="font-size: 1.2rem; color: var(--text-muted); max-width: 800px;">
-                I am a creative technologist based in New York. I specialize in building digital experiences that blend aesthetic perfection with robust engineering. With over 5 years of experience in Full Stack Development, I turn complex problems into elegant interface solutions.
+                I am a creative technologist specializing in building digital experiences that blend aesthetic perfection with robust engineering. With deep expertise in Machine Learning, Deep Learning, and Full Stack Development, I turn complex data into intuitive, futuristic solutions.
             </p>
         </div>
     </section>
@@ -345,24 +392,68 @@
         </div>
         <div class="project-grid">
             <div class="project-card reveal hover-trigger">
-                <h3>Fintech Dashboard</h3> <p>A real-time financial data visualization platform handling over 1M records per second.</p>
-                <div class="tags">
-                    <span>React</span><span>D3.js</span><span>Node</span>
-                </div>
+                <h3>Fintech Dashboard</h3> 
+                <p>A real-time financial data visualization platform handling over 1M records per second.</p>
+                <div class="tags"><span>React</span><span>D3.js</span><span>Node</span></div>
             </div>
 
             <div class="project-card reveal hover-trigger">
-                <h3>LMS</h3> <p>Generative adversarial network interface for creating high-fidelity assets for designers.</p>
-                <div class="tags">
-                    <span>Python</span><span>TensorFlow</span><span>Pytorch</span>
-                </div>
+                <h3>LMS Core</h3> 
+                <p>An advanced Learning Management System with automated grading and student analytics.</p>
+                <div class="tags"><span>Python</span><span>Django</span><span>PostgreSQL</span></div>
             </div>
 
             <div class="project-card reveal hover-trigger">
-                <h3>E-Commerce Core</h3> <p>Headless Shopify architecture built for extreme performance and scalability.</p>
-                <div class="tags">
-                    <span>Next.js</span><span>GraphQL</span><span>AWS</span>
+                <h3>DL Image Processor</h3> 
+                <p>Deep Learning model for high-fidelity asset generation and image restoration.</p>
+                <div class="tags"><span>Pytorch</span><span>FastAPI</span><span>CUDA</span></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="current-projects">
+        <div class="reveal">
+            <h2 class="section-title">Now Building</h2>
+        </div>
+        <div class="project-grid">
+            <div class="project-card reveal hover-trigger">
+                <div class="status-badge"><div class="pulse"></div> IN DEVELOPMENT</div>
+                <h3>AI Content Engine</h3> 
+                <p>Building a proprietary NLP engine for automated technical documentation generation.</p>
+                <div class="tags"><span>OpenAI API</span><span>Next.js</span></div>
+            </div>
+
+            <div class="project-card reveal hover-trigger">
+                <div class="status-badge"><div class="pulse"></div> BETA TESTING</div>
+                <h3>Crypto Alpha Bot</h3> 
+                <p>Developing a high-frequency trading bot using reinforcement learning strategies.</p>
+                <div class="tags"><span>TensorFlow</span><span>WebSockets</span></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact">
+        <div class="reveal">
+            <h2 class="section-title">Get In Touch</h2>
+            <div class="contact-container">
+                <div class="contact-info">
+                    <h3>Let's collaborate.</h3>
+                    <p>I'm currently available for freelance work and full-time opportunities. If you have a project that needs a futuristic touch, reach out.</p>
+                    <div style="margin-bottom: 10px;"><strong>Email:</strong> jubayer@example.com</div>
+                    <div><strong>Location:</strong> Dhaka, Bangladesh / Remote</div>
                 </div>
+                <form class="contact-form">
+                    <div class="form-group">
+                        <input type="text" placeholder="Your Name" class="hover-trigger">
+                    </div>
+                    <div class="form-group">
+                        <input type="email" placeholder="Email Address" class="hover-trigger">
+                    </div>
+                    <div class="form-group">
+                        <textarea rows="5" placeholder="Your Message" class="hover-trigger"></textarea>
+                    </div>
+                    <button type="submit" class="hero-btn hover-trigger" style="width: 100%;">Send Message</button>
+                </form>
             </div>
         </div>
     </section>
@@ -379,10 +470,13 @@
             cursor.style.top = e.clientY + 'px';
         });
 
-        document.querySelectorAll('.hover-trigger').forEach(link => {
-            link.addEventListener('mouseenter', () => cursor.classList.add('hovered'));
-            link.addEventListener('mouseleave', () => cursor.classList.remove('hovered'));
-        });
+        const updateHovers = () => {
+            document.querySelectorAll('.hover-trigger').forEach(link => {
+                link.addEventListener('mouseenter', () => cursor.classList.add('hovered'));
+                link.addEventListener('mouseleave', () => cursor.classList.remove('hovered'));
+            });
+        };
+        updateHovers();
 
         // --- ENTRANCE ANIMATIONS ---
         window.addEventListener('load', () => {
@@ -407,7 +501,7 @@
 
         // --- TYPEWRITER ---
         const textElement = document.getElementById('typewriter');
-        const phrases = ["Fullstack Developer.", "LMS system creator.", "a Problem Solver."];
+        const phrases = ["Fullstack Developer.", "LMS System Creator.", "an ML/DL Specialist."];
         let pIdx = 0, cIdx = 0, isDel = false;
 
         function type() {
@@ -453,6 +547,4 @@
         window.onresize = resize; resize(); loop();
     </script>
 </body>
-
 </html>
-
