@@ -1,550 +1,913 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
+
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jubayer Ahmed | Modern Portfolio</title>
+
+    <title>Modern Corporate Portfolio</title>
+
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+
     
+
     <style>
+
         /* --- 1. CORE VARIABLES & RESET --- */
+
         :root {
+
             --bg-color: #0a0a0a;
+
             --text-main: #ffffff;
+
             --text-muted: #a0a0a0;
-            --accent: #3b82f6; 
+
+            --accent: #3b82f6; /* Electric Blue */
+
             --accent-glow: rgba(59, 130, 246, 0.4);
+
             --card-bg: rgba(255, 255, 255, 0.05);
+
             --glass-border: rgba(255, 255, 255, 0.1);
+
             --font-main: 'Outfit', sans-serif;
+
             --cursor-size: 20px;
+
         }
+
+
 
         * {
+
             margin: 0;
+
             padding: 0;
+
             box-sizing: border-box;
-            cursor: none; 
+
+            cursor: none; /* Hide default cursor for custom one */
+
         }
 
-        html {
-            scroll-behavior: smooth;
-        }
+
 
         body {
+
             background-color: var(--bg-color);
+
             color: var(--text-main);
+
             font-family: var(--font-main);
+
             overflow-x: hidden;
+
             line-height: 1.6;
+
         }
+
+
 
         /* --- 2. CUSTOM CURSOR --- */
+
         .cursor {
+
             width: var(--cursor-size);
+
             height: var(--cursor-size);
+
             border: 1px solid var(--text-main);
+
             border-radius: 50%;
+
             position: fixed;
+
             pointer-events: none;
+
             z-index: 9999;
+
             transition: transform 0.2s ease, background-color 0.2s ease;
+
             transform: translate(-50%, -50%);
+
             mix-blend-mode: difference;
+
         }
+
+
 
         .cursor.hovered {
+
             transform: translate(-50%, -50%) scale(2.5);
+
             background-color: var(--text-main);
+
             border-color: transparent;
+
         }
+
+
 
         /* --- 3. LAYOUT & NAVIGATION --- */
+
         header {
+
             position: fixed;
+
             top: 0;
+
             width: 100%;
+
             padding: 20px 50px;
+
             display: flex;
+
             justify-content: space-between;
+
             align-items: center;
+
             z-index: 100;
+
             backdrop-filter: blur(10px);
+
             border-bottom: 1px solid rgba(255,255,255,0.05);
+
         }
+
+
 
         .logo {
+
             font-weight: 800;
+
             font-size: 1.5rem;
+
             letter-spacing: -1px;
+
         }
+
+
 
         nav ul {
+
             display: flex;
+
             gap: 40px;
+
             list-style: none;
+
         }
+
+
 
         nav a {
+
             color: var(--text-muted);
+
             text-decoration: none;
+
             font-weight: 400;
+
             font-size: 0.9rem;
+
             text-transform: uppercase;
+
             letter-spacing: 1px;
+
             transition: color 0.3s;
+
         }
+
+
 
         nav a:hover {
+
             color: var(--accent);
+
         }
+
+
 
         /* --- 4. HERO SECTION --- */
+
         .hero {
+
             height: 100vh;
+
             display: flex;
+
             flex-direction: row;
+
             align-items: center;
+
             justify-content: space-between;
+
             padding: 0 10%;
+
             position: relative;
+
         }
+
+
 
         #hero-canvas {
+
             position: absolute;
+
             top: 0;
+
             left: 0;
+
             width: 100%;
+
             height: 100%;
+
             z-index: -1;
+
             opacity: 0.6;
+
         }
+
+
 
         .hero h1 {
+
             font-size: 5rem;
+
             font-weight: 800;
+
             line-height: 1.1;
+
             margin-bottom: 20px;
+
             background: linear-gradient(to right, #fff, #888);
+
             -webkit-background-clip: text;
+
             -webkit-text-fill-color: transparent;
+
             opacity: 0;
+
             transform: translateY(50px);
+
         }
+
+
 
         .hero p {
+
             font-size: 1.5rem;
+
             color: var(--text-muted);
+
             max-width: 600px;
+
             margin-bottom: 40px;
+
             opacity: 0;
+
             transform: translateY(50px);
+
         }
+
+
 
         .hero-btn {
+
             padding: 15px 40px;
+
             background: transparent;
+
             border: 1px solid var(--accent);
+
             color: var(--accent);
+
             font-size: 1rem;
+
             text-transform: uppercase;
+
             letter-spacing: 2px;
+
             width: fit-content;
+
             transition: all 0.4s ease;
+
             opacity: 0;
+
             transform: translateY(50px);
+
             text-decoration: none;
-            display: inline-block;
+
         }
+
+
 
         .hero-btn:hover {
+
             background: var(--accent);
+
             color: #fff;
+
             box-shadow: 0 0 20px var(--accent-glow);
+
         }
+
+
 
         .hero-content {
+
             flex: 1;
+
             max-width: 50%;
+
         }
+
+
+
+        /* --- FULLY VISIBLE SQUARE PHOTO WITH ROTATING BORDER --- */
 
         .profile-photo {
+
             position: relative;
+
             width: 320px; 
+
             height: 320px;
+
             display: flex;
+
             justify-content: center;
+
             align-items: center;
+
             z-index: 1;
+
             opacity: 0;
+
             transform: translateY(50px);
+
         }
+
+
+
+        /* The Moving Frame (Behind the photo) */
 
         .profile-photo::before {
+
             content: '';
+
             position: absolute;
-            width: 106%;
+
+            width: 106%; /* Makes it slightly bigger than the image */
+
             height: 106%;
-            border-radius: 28px;
-            background: conic-gradient(transparent 0deg, var(--accent) 40deg, transparent 80deg, transparent 180deg, var(--accent) 220deg, transparent 260deg);
+
+            border-radius: 28px; /* Slightly more rounded than image for a smooth look */
+
+            background: conic-gradient(
+
+                transparent 0deg,
+
+                var(--accent) 40deg,
+
+                transparent 80deg,
+
+                transparent 180deg,
+
+                var(--accent) 220deg,
+
+                transparent 260deg
+
+            );
+
             animation: rotate-border 4s linear infinite;
-            z-index: -1;
-            filter: blur(1px);
+
+            z-index: -1; /* This ensures it stays BEHIND your face */
+
+            filter: blur(1px); /* Softens the light trail */
+
         }
+
+
+
+        /* The Image Styling */
 
         .profile-photo img {
+
             width: 100%;
+
             height: 100%;
-            border-radius: 24px;
-            object-fit: cover;
-            border: 4px solid var(--bg-color);
-            background: #1a1a1a;
+
+            border-radius: 24px; /* Clean square corners */
+
+            object-fit: contain; /* Ensures your face is not squished */
+
+            border: 4px solid var(--bg-color); /* Creates a protective gap */
+
+            background: #4e254259;
+
         }
+
+
 
         @keyframes rotate-border {
+
             from { transform: rotate(0deg); }
+
             to { transform: rotate(360deg); }
+
         }
+
+
 
         /* --- 5. SECTIONS GENERAL --- */
+
         section {
+
             padding: 100px 10%;
+
         }
+
+
 
         .section-title {
+
             font-size: 3rem;
+
             margin-bottom: 60px;
+
             font-weight: 600;
+
         }
+
+
 
         .reveal {
+
             opacity: 0;
+
             transform: translateY(50px);
+
             transition: all 1s ease;
+
         }
+
+
 
         .reveal.active {
+
             opacity: 1;
+
             transform: translateY(0);
+
         }
+
+
 
         /* --- 6. PROJECTS (GRID) --- */
+
         .project-grid {
+
             display: grid;
+
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+
             gap: 30px;
+
         }
+
+
 
         .project-card {
+
             background: var(--card-bg);
+
             border: 1px solid var(--glass-border);
+
             padding: 30px;
+
             border-radius: 15px;
+
             transition: transform 0.4s ease, border-color 0.4s ease;
-            position: relative;
-            overflow: hidden;
+
         }
+
+
 
         .project-card:hover {
+
             transform: translateY(-10px);
+
             border-color: var(--accent);
+
         }
+
+
 
         .project-card h3 {
+
             font-size: 1.5rem;
+
             margin-bottom: 10px;
+
         }
+
+
 
         .project-card p {
+
             color: var(--text-muted);
+
             font-size: 0.9rem;
+
             margin-bottom: 20px;
+
         }
+
+
 
         .tags span {
+
             font-size: 0.75rem;
+
             background: rgba(255,255,255,0.1);
+
             padding: 5px 10px;
+
             border-radius: 20px;
+
             margin-right: 5px;
+
         }
 
-        /* --- 7. CURRENT PROJECTS (NEW) --- */
-        .status-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.8rem;
-            color: var(--accent);
-            margin-bottom: 15px;
-            font-weight: 600;
-        }
 
-        .pulse {
-            width: 8px;
-            height: 8px;
-            background: var(--accent);
-            border-radius: 50%;
-            box-shadow: 0 0 10px var(--accent);
-            animation: pulse-animation 1.5s infinite;
-        }
 
-        @keyframes pulse-animation {
-            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7); }
-            70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(59, 130, 246, 0); }
-            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
-        }
+        /* --- 7. FOOTER --- */
 
-        /* --- 8. CONTACT PAGE (NEW) --- */
-        .contact-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 50px;
-            background: var(--card-bg);
-            padding: 40px;
-            border-radius: 20px;
-            border: 1px solid var(--glass-border);
-        }
-
-        .contact-info h3 { font-size: 2rem; margin-bottom: 20px; }
-        .contact-info p { color: var(--text-muted); margin-bottom: 30px; }
-
-        .contact-form { display: flex; flex-direction: column; gap: 20px; }
-        .form-group input, .form-group textarea {
-            width: 100%;
-            padding: 15px;
-            background: rgba(255,255,255,0.03);
-            border: 1px solid var(--glass-border);
-            border-radius: 8px;
-            color: white;
-            font-family: var(--font-main);
-            outline: none;
-            transition: border-color 0.3s;
-        }
-        .form-group input:focus, .form-group textarea:focus { border-color: var(--accent); }
-
-        /* --- 9. FOOTER --- */
         footer {
+
             padding: 50px 10%;
+
             border-top: 1px solid var(--glass-border);
+
             text-align: center;
+
             color: var(--text-muted);
+
         }
+
+
 
         /* RESPONSIVE */
-        @media (max-width: 992px) {
-            .contact-container { grid-template-columns: 1fr; }
-        }
 
         @media (max-width: 768px) {
-            .hero { flex-direction: column-reverse; justify-content: center; text-align: center; }
+
+            .hero { 
+
+                flex-direction: column-reverse; 
+
+                justify-content: center;
+
+                text-align: center;
+
+            }
+
             .hero-content { max-width: 100%; margin-top: 50px; }
-            .profile-photo { width: 250px; height: 250px; margin: 0 auto; }
+
+            .profile-photo { 
+
+                width: 250px; 
+
+                height: 250px; 
+
+                margin: 0 auto; 
+
+            }
+
             .hero h1 { font-size: 3rem; }
+
             header { padding: 20px; }
+
             nav { display: none; }
+
         }
+
     </style>
+
 </head>
+
 <body>
+
+
 
     <div class="cursor"></div>
 
+
+
     <header>
-        <div class="logo">JUBAYER AHMED</div> 
+
+        <div class="logo">JUBAYER  AHMED</div> 
+
         <nav>
+
             <ul>
+
                 <li><a href="#about" class="hover-trigger">ABOUT</a></li>
+
                 <li><a href="#projects" class="hover-trigger">PROJECTS</a></li>
-                <li><a href="#current-projects" class="hover-trigger">CURRENT</a></li>
+
                 <li><a href="#contact" class="hover-trigger">CONTACT</a></li>
+
+                <li><a href="#current projects" class="hover-trigger">CURRENT PROJECTS</li>
+
             </ul>
+
         </nav>
+
     </header>
 
+
+
     <section class="hero">
+
         <canvas id="hero-canvas"></canvas>
+
         <div class="hero-content">
+
             <h1 class="animate-hero">LMS.ML.DL<br>FRONTEND & BACKEND</h1>
+
             <p class="animate-hero">
+
                 I am <span style="color:var(--accent)" id="typewriter"></span>
+
             </p>
+
             <a href="#projects" class="hero-btn animate-hero hover-trigger">View Projects</a>
+
         </div>
+
         
+
         <div class="profile-photo animate-hero">
-            <img src="profile.jpg" alt="Jubayer Ahmed">
+
+            <img src="profile.jpg" alt="Profile Photo">
+
         </div>
+
     </section>
+
+
 
     <section id="about">
+
         <div class="reveal">
+
             <h2 class="section-title">Who I Am</h2>
+
             <p style="font-size: 1.2rem; color: var(--text-muted); max-width: 800px;">
-                I am a creative technologist specializing in building digital experiences that blend aesthetic perfection with robust engineering. With deep expertise in Machine Learning, Deep Learning, and Full Stack Development, I turn complex data into intuitive, futuristic solutions.
+
+                I am a creative technologist based in New York. I specialize in building digital experiences that blend aesthetic perfection with robust engineering. With over 5 years of experience in Full Stack Development, I turn complex problems into elegant interface solutions.
+
             </p>
+
         </div>
+
     </section>
+
+
 
     <section id="projects">
+
         <div class="reveal">
+
             <h2 class="section-title">Selected Works</h2>
+
         </div>
+
         <div class="project-grid">
-            <div class="project-card reveal hover-trigger">
-                <h3>Fintech Dashboard</h3> 
-                <p>A real-time financial data visualization platform handling over 1M records per second.</p>
-                <div class="tags"><span>React</span><span>D3.js</span><span>Node</span></div>
-            </div>
 
             <div class="project-card reveal hover-trigger">
-                <h3>LMS Core</h3> 
-                <p>An advanced Learning Management System with automated grading and student analytics.</p>
-                <div class="tags"><span>Python</span><span>Django</span><span>PostgreSQL</span></div>
-            </div>
 
-            <div class="project-card reveal hover-trigger">
-                <h3>DL Image Processor</h3> 
-                <p>Deep Learning model for high-fidelity asset generation and image restoration.</p>
-                <div class="tags"><span>Pytorch</span><span>FastAPI</span><span>CUDA</span></div>
-            </div>
-        </div>
-    </section>
+                <h3>Fintech Dashboard</h3> <p>A real-time financial data visualization platform handling over 1M records per second.</p>
 
-    <section id="current-projects">
-        <div class="reveal">
-            <h2 class="section-title">Now Building</h2>
-        </div>
-        <div class="project-grid">
-            <div class="project-card reveal hover-trigger">
-                <div class="status-badge"><div class="pulse"></div> IN DEVELOPMENT</div>
-                <h3>AI Content Engine</h3> 
-                <p>Building a proprietary NLP engine for automated technical documentation generation.</p>
-                <div class="tags"><span>OpenAI API</span><span>Next.js</span></div>
-            </div>
+                <div class="tags">
 
-            <div class="project-card reveal hover-trigger">
-                <div class="status-badge"><div class="pulse"></div> BETA TESTING</div>
-                <h3>Crypto Alpha Bot</h3> 
-                <p>Developing a high-frequency trading bot using reinforcement learning strategies.</p>
-                <div class="tags"><span>TensorFlow</span><span>WebSockets</span></div>
-            </div>
-        </div>
-    </section>
+                    <span>React</span><span>D3.js</span><span>Node</span>
 
-    <section id="contact">
-        <div class="reveal">
-            <h2 class="section-title">Get In Touch</h2>
-            <div class="contact-container">
-                <div class="contact-info">
-                    <h3>Let's collaborate.</h3>
-                    <p>I'm currently available for freelance work and full-time opportunities. If you have a project that needs a futuristic touch, reach out.</p>
-                    <div style="margin-bottom: 10px;"><strong>Email:</strong> jubayer@example.com</div>
-                    <div><strong>Location:</strong> Dhaka, Bangladesh / Remote</div>
                 </div>
-                <form class="contact-form">
-                    <div class="form-group">
-                        <input type="text" placeholder="Your Name" class="hover-trigger">
-                    </div>
-                    <div class="form-group">
-                        <input type="email" placeholder="Email Address" class="hover-trigger">
-                    </div>
-                    <div class="form-group">
-                        <textarea rows="5" placeholder="Your Message" class="hover-trigger"></textarea>
-                    </div>
-                    <button type="submit" class="hero-btn hover-trigger" style="width: 100%;">Send Message</button>
-                </form>
+
             </div>
+
+
+
+            <div class="project-card reveal hover-trigger">
+
+                <h3>LMS</h3> <p>Generative adversarial network interface for creating high-fidelity assets for designers.</p>
+
+                <div class="tags">
+
+                    <span>Python</span><span>TensorFlow</span><span>Pytorch</span>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="project-card reveal hover-trigger">
+
+                <h3>E-Commerce Core</h3> <p>Headless Shopify architecture built for extreme performance and scalability.</p>
+
+                <div class="tags">
+
+                    <span>Next.js</span><span>GraphQL</span><span>AWS</span>
+
+                </div>
+
+            </div>
+
         </div>
+
     </section>
+
+
 
     <footer>
+
         <p>&copy; 2025 Jubayer Ahmed Portfolio. Crafted with Precision.</p>
+
     </footer>
 
+
+
     <script>
+
         // --- CUSTOM CURSOR ---
+
         const cursor = document.querySelector('.cursor');
+
         document.addEventListener('mousemove', (e) => {
+
             cursor.style.left = e.clientX + 'px';
+
             cursor.style.top = e.clientY + 'px';
+
         });
 
-        const updateHovers = () => {
-            document.querySelectorAll('.hover-trigger').forEach(link => {
-                link.addEventListener('mouseenter', () => cursor.classList.add('hovered'));
-                link.addEventListener('mouseleave', () => cursor.classList.remove('hovered'));
-            });
-        };
-        updateHovers();
+
+
+        document.querySelectorAll('.hover-trigger').forEach(link => {
+
+            link.addEventListener('mouseenter', () => cursor.classList.add('hovered'));
+
+            link.addEventListener('mouseleave', () => cursor.classList.remove('hovered'));
+
+        });
+
+
 
         // --- ENTRANCE ANIMATIONS ---
+
         window.addEventListener('load', () => {
+
             const elements = document.querySelectorAll('.animate-hero');
+
             elements.forEach((el, index) => {
+
                 setTimeout(() => {
+
                     el.style.opacity = '1';
+
                     el.style.transform = 'translateY(0)';
+
                     el.style.transition = 'all 1s ease';
+
                 }, 300 * (index + 1));
+
             });
+
         });
 
+
+
         // --- SCROLL OBSERVER ---
+
         const observer = new IntersectionObserver((entries) => {
+
             entries.forEach(entry => {
+
                 if (entry.isIntersecting) entry.target.classList.add('active');
+
             });
+
         }, { threshold: 0.1 });
+
+
 
         document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
+
+
         // --- TYPEWRITER ---
+
         const textElement = document.getElementById('typewriter');
-        const phrases = ["Fullstack Developer.", "LMS System Creator.", "an ML/DL Specialist."];
+
+        const phrases = ["Fullstack Developer.", "LMS system creator.", "a Problem Solver."];
+
         let pIdx = 0, cIdx = 0, isDel = false;
 
+
+
         function type() {
+
             const curr = phrases[pIdx];
+
             textElement.textContent = isDel ? curr.substring(0, cIdx - 1) : curr.substring(0, cIdx + 1);
+
             cIdx = isDel ? cIdx - 1 : cIdx + 1;
+
             let speed = isDel ? 50 : 100;
 
+
+
             if (!isDel && cIdx === curr.length) { speed = 2000; isDel = true; }
+
             else if (isDel && cIdx === 0) { isDel = false; pIdx = (pIdx + 1) % phrases.length; speed = 500; }
+
             setTimeout(type, speed);
+
         }
+
         type();
 
+
+
         // --- CANVAS PARTICLES ---
+
         const canvas = document.getElementById('hero-canvas');
+
         const ctx = canvas.getContext('2d');
+
         let pts = [];
+
         function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; init(); }
+
         class Pt {
+
             constructor() { 
+
                 this.x = Math.random()*canvas.width; this.y = Math.random()*canvas.height; 
+
                 this.sx = (Math.random()-0.5)*0.5; this.sy = (Math.random()-0.5)*0.5; 
+
             }
+
             up() { 
+
                 this.x+=this.sx; this.y+=this.sy; 
+
                 if(this.x<0||this.x>canvas.width)this.sx*=-1; if(this.y<0||this.y>canvas.height)this.sy*=-1; 
+
             }
+
             dr() { ctx.fillStyle='rgba(59,130,246,0.3)'; ctx.beginPath(); ctx.arc(this.x,this.y,1,0,Math.PI*2); ctx.fill(); }
+
         }
+
         function init() { pts=[]; for(let i=0;i<80;i++) pts.push(new Pt()); }
+
         function loop() {
+
             ctx.clearRect(0,0,canvas.width,canvas.height);
+
             pts.forEach(p=>{
+
                 p.up(); p.dr();
+
                 pts.forEach(p2=>{
+
                     let d = Math.hypot(p.x-p2.x, p.y-p2.y);
+
                     if(d<100){ ctx.strokeStyle=`rgba(59,130,246,${0.1-d/1000})`; ctx.beginPath(); ctx.moveTo(p.x,p.y); ctx.lineTo(p2.x,p2.y); ctx.stroke(); }
+
                 });
+
             });
+
             requestAnimationFrame(loop);
+
         }
+
         window.onresize = resize; resize(); loop();
+
     </script>
+
 </body>
+
+
+
 </html>
