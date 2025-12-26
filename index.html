@@ -24,7 +24,23 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            cursor: none; 
+        }
+
+        /* Desktop: hide default cursor */
+        @media (min-width: 769px) {
+            * {
+                cursor: none;
+            }
+        }
+
+        /* Mobile: hide cursor completely */
+        @media (max-width: 768px) {
+            * {
+                cursor: none;
+            }
+            .cursor {
+                display: none;
+            }
         }
 
         html {
@@ -692,4 +708,3 @@
     </script>
 </body>
 </html>
-
